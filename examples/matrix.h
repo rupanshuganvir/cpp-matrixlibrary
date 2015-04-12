@@ -159,14 +159,22 @@ matrix<T> reduced(const matrix<T> &A){
     return ans;
 }
 
+
 template<class T>
-matrix<T> C_space(const matrix<T> &A){
-    matrix<T> R = reduced(~A);
+int rank(const matrix<T> &A){
+    matrix<T> R = reduced(A);
     int r=0; //r:rank of A
     for (int i=0,j=0; i<R.m && j<R.n; ){
         if (R.element[i][j]!=0) {r++; i++; j++;}
         else{ j++; }
     }
+    return r;
+}
+
+template<class T>
+matrix<T> C_space(const matrix<T> &A){
+    matrix<T> R = reduced(~A);
+    int r=rank(R);
     T *e = new T[r*R.n];
     int k=0;
     for (int i=0; i<r; i++){
@@ -176,3 +184,4 @@ matrix<T> C_space(const matrix<T> &A){
     }
     return ~matrix<T>(r, R.n, e);
 }
+
