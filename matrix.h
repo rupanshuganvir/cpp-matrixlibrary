@@ -13,6 +13,14 @@ class matrix{
         element = new T*[r];
         for (int i=0; i<r; i++) {element[i]=new T[c];}
     }
+    matrix(int r, int c, T lamda){
+        m=r, n=c;
+        element = new T*[r];
+        for (int i=0; i<r; i++) {
+            element[i]=new T[c];
+            for (int j=0; j<c; j++){ if (i==j) element[i][j]=lamda; else element[i][j]=0;}
+        }
+    }
     matrix(int r, int c, T **input){
         m=r; n=c;
         element = new T*[r];
@@ -183,5 +191,42 @@ matrix<T> C_space(const matrix<T> &A){
         }
     }
     return ~matrix<T>(r, R.n, e);
+}
+
+template<class T>
+matrix<T> diag(T *diagonal, int n){
+    T **e = new T*[n];
+    for (int i=0; i<n; i++) e[i] = new T[n];
+    for (int i=0; i<n; i++){
+        for (int j=0; j<n; j++){
+            if (i==j) e[i][j] = diagonal[i];
+            else e[i][j]=0;
+        }
+    }
+    return matrix<T>(n,n,e);
+}
+
+//Asumming A to be square
+template<class T>
+T det(const matrix<T> &A){
+    matrix<T> R=A;
+    T det=1;
+    for (int i=0; i<R.n;i++){
+        if (R.element[i][i]==0) {
+            int q=i+1;
+            while (R.element[q][i]==0 && q<n) {q++;}
+            if (q==n) return 0;
+            R.swap(i,q); det*=-1;
+            i--; continue;
+        }
+        else{
+            for (int p=i+1; p<R.n; p++){
+                T lamda = - (R.element[p][i]/R.element[i][i]);
+                R.op2(p,i, lamda );
+            }
+        }
+    }
+    for (int i=0; i<R.n; i++){ det *= R.element[i][i]; }
+    return det;
 }
 

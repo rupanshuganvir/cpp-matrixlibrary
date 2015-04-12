@@ -11,5 +11,11 @@ int main(){
 	cout<<reduced(P)<<endl;
 	cout<<C_space(P)<<endl;
 	cout<<rank(P)<<endl;
+
+	double B[]={1,2,3};
+	matrix<double> Q=diag(B,3);
+	Q.swap(1,2);
+	cout<<det(Q);
+
 	return 0;
 }
