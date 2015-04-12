@@ -31,6 +31,8 @@ matrix<T> reduced(const matrix<T> &A) : Reduced form of the given matrix
 
 matrix<T> C_space(const matrix<T> &A) : Column Space in matrix form.
 
+int rank(const matrix<T> &A): give the rank of the matrix A
+
 Please refer the example file "example.cpp".
 
 The main file needs to include:
@@ -48,9 +50,28 @@ The last line creates a 3x3 matrix, P with elements as read from the array A.
 cout<<P<<endl;
 ```
 The matrix P will be printed out.
+```
+( 2 1 1 )
+( 4 -6 0 )
+( -2 7 2 )
+```
 
 ```
 cout<<reduced(P)<<endl;
 cout<<C_space(P)<<endl;
 ```
-reduced() and C_space() are functions defined in library which return reduced form of P and the column Space of P(in matrix form) respectively.
+reduced() and C_space() are functions defined in library which return reduced form of P and the column Space of P(in matrix form) respectively.Hence, the following will be printed.
+```
+( 2 0 0 )
+( 0 1 -0 )
+( 0 0 1 )
+
+( 2 0 0 )
+( 0 1 0 )
+( 0 0 1 )
+```
+The following line will print 3 which is the rank of the matrix P.
+```
+cout<<rank(P);
+```
+
