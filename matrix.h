@@ -214,8 +214,8 @@ T det(const matrix<T> &A){
     for (int i=0; i<R.n;i++){
         if (R.element[i][i]==0) {
             int q=i+1;
-            while (R.element[q][i]==0 && q<n) {q++;}
-            if (q==n) return 0;
+            while (R.element[q][i]==0 && q<R.n) {q++;}
+            if (q==R.n) return 0;
             R.swap(i,q); det*=-1;
             i--; continue;
         }
@@ -228,5 +228,34 @@ T det(const matrix<T> &A){
     }
     for (int i=0; i<R.n; i++){ det *= R.element[i][i]; }
     return det;
+}
+
+template<class T>
+matrix<T> inverse(const matrix<T> &A){
+    matrix<T> X=A; matrix<T> ans(X.n,X.n,1);
+    for (int i=0; i<X.n;i++){
+        if (X.element[i][i]==0) {
+            int q=i+1;
+            while (X.element[q][i]==0 && q<X.n) {q++;}
+            if (q==X.n) {/*this will imply that its noninvertible*/ }
+            X.swap(i,q); ans.swap(i,q);
+            i--; continue;
+        }
+        else{
+            for (int p=i+1; p<X.n; p++){
+                T lamda = 1/X.element[i][i];
+                X.op1(i,lamda); ans.op1(i,lamda);
+                lamda = -(X.element[p][i]/X.element[i][i]);
+                X.op2(p,i,lamda ); ans.op2(p,i,lamda);
+            }
+        }
+    }
+    for (int i=A.n-1; i>0;i--){
+        for (int p=i-1; p>=0; p--){
+            T lamda = -X.element[p][i];
+            X.op2(p,i,lamda); ans.op2(p,i,lamda);
+        }
+    }
+    return ans;
 }
 
